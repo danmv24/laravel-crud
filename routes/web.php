@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [PostController::class, 'index'])->name('index');
+
+Route::prefix('posts')->group(function() {
+    Route::get('/read/{postId}', [PostController::class, 'readPost'])->name('read');
+    Route::get('/create', [PostController::class, 'getCreate'])->name('create');
+    Route::post('/create', [PostController::class, 'createPost'])->name('create');
+    Route::get('/update/{postId}', [PostController::class, 'getUpdate'])->name('updatePage');
+    Route::patch('/edit/{postId}', [PostController::class, 'updatePost'])->name('updatePost');
+    Route::get('/delete/{postId}', [PostController::class, 'deletePost'])->name('delete');
 });
